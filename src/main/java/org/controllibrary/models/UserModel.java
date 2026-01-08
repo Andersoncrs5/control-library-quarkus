@@ -1,24 +1,18 @@
 package org.controllibrary.models;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.controllibrary.utils.base.BaseModel;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users", indexes = {
         @Index(name = "idx_username", columnList = "username"),
         @Index(name = "idx_email", columnList = "email")
 })
-@Getter
-@Setter
-@ToString(callSuper = true)
-@SuperBuilder(toBuilder = true)
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserModel extends BaseModel {
 
     @Column(name = "username", length = 200, nullable = false)
@@ -33,6 +27,57 @@ public class UserModel extends BaseModel {
     private Boolean active = true;
 
     @Column(name = "blocked_at")
-    private LocalDateTime blockedAt;
+    private OffsetDateTime blockedAt;
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public OffsetDateTime getBlockedAt() {
+        return blockedAt;
+    }
+
+    public void setBlockedAt(OffsetDateTime blockedAt) {
+        this.blockedAt = blockedAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        UserModel userModel = (UserModel) o;
+        return Objects.equals(username, userModel.username) && Objects.equals(email, userModel.email) && Objects.equals(active, userModel.active);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, email);
+    }
 }
