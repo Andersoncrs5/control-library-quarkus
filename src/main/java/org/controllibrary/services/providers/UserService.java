@@ -5,6 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.controllibrary.dtos.users.CreateUserDTO;
+import org.controllibrary.dtos.users.UpdateUserDTO;
 import org.controllibrary.models.UserModel;
 import org.controllibrary.repositories.UserRepository;
 import org.controllibrary.services.interfaces.IUserService;
@@ -49,5 +50,13 @@ public class UserService implements IUserService {
         return repository.persist(model);
     }
 
+    @Retry
+    @Override
+    @Transactional
+    public Uni<UserModel> update(UserModel user, UpdateUserDTO dto) {
+        this.mapper.merge(dto, user);
+
+        return this.repository.persist(user);
+    }
 
 }
