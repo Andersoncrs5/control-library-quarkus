@@ -5,4 +5,5 @@ import org.controllibrary.models.UserModel;
 
 public interface IUserService {
     Uni<UserModel> findById(Long id);
+    Uni<Boolean> delete(Long id);
 }
