@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "users", indexes = {
         @Index(name = "idx_username", columnList = "username"),
-        @Index(name = "idx_name", columnList = "name"),
         @Index(name = "idx_email", columnList = "email")
 })
 @Getter
@@ -21,9 +20,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserModel extends BaseModel {
-
-    @Column(length = 100, nullable = false)
-    private String name;
 
     @Column(name = "username", length = 200, nullable = false)
     private String username;
