@@ -1,0 +1,24 @@
+quarkus:
+  http:
+    port: 8081
+
+validation:
+  email:
+    notblank: "The library's email address cannot be empty."
+    format: "The email format provided is invalid."
+    size: "The email should be between 5 and 150 characters long."
+
+mp:
+  fault-tolerance:
+    "org.controllibrary.services.providers.UserService/create/retry":
+      max-retries: 5
+      delay: 1000
+      unit: millis
+    "org.controllibrary.services.providers.UserService/update/retry":
+      max-retries: 5
+      delay: 700
+      unit: millis
+    "org.controllibrary.services.providers.UserService/delete/retry":
+      max-retries: 5
+      delay: 2000
+      unit: millis
