@@ -1,5 +1,6 @@
 package org.controllibrary.configs.exceptions;
 
+import io.quarkus.security.UnauthorizedException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.core.Response;
 import org.controllibrary.utils.exceptions.ModelNotFoundException;
@@ -23,6 +24,11 @@ public class GlobalExceptionHandler {
         );
 
         return RestResponse.status(Response.Status.NOT_FOUND, res);
+    }
+
+    @ServerExceptionMapper
+    public RestResponse<ResponseHTTP<Void>> handleUnauthorizedException(UnauthorizedException ex) {
+        return RestResponse.status(Response.Status.UNAUTHORIZED);
     }
 
     @ServerExceptionMapper
