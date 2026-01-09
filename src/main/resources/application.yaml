@@ -1,6 +1,26 @@
 quarkus:
   http:
     port: 8081
+    cors:
+      ~: true
+      origins: "${spring.front.url}"
+      methods: [GET, POST, PUT, DELETE, OPTIONS]
+      headers: ["*"]
+    auth:
+      permission:
+        public:
+          paths: ["/v1/auth/login", "/v1/auth/register"]
+          policy: permit
+        authenticated:
+          paths: ["/*"]
+          policy: authenticated
+
+  security:
+    password:
+      argon:
+        memory: 65536
+        iterations: 3
+        parallelism: 1
 
 security:
   jwt:
@@ -9,6 +29,7 @@ security:
   exp:
     token: 24
     refresh: 168
+
 spring:
   details:
     domain: "https://controllibrary.org"
