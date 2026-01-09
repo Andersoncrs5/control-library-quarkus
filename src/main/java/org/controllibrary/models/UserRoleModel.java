@@ -3,6 +3,8 @@ package org.controllibrary.models;
 import jakarta.persistence.*;
 import org.controllibrary.utils.base.BaseModel;
 
+import java.util.Objects;
+
 @Entity
 @Table(
         name = "user_roles",
@@ -23,4 +25,23 @@ public class UserRoleModel extends BaseModel {
     @JoinColumn(name = "role_id", nullable = false)
     private RoleModel role;
 
+    public UserModel getUser() {
+        return user;
+    }
+
+    public RoleModel getRole() {
+        return role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        UserRoleModel that = (UserRoleModel) o;
+        return Objects.equals(user, that.user) && Objects.equals(role, that.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user, role);
+    }
 }
