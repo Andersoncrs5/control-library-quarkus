@@ -127,6 +127,12 @@
             <artifactId>quarkus-smallrye-jwt</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.password4j</groupId>
+            <artifactId>password4j</artifactId>
+            <version>1.8.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
