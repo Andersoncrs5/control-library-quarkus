@@ -6,6 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -28,6 +30,9 @@ public class UserModel extends BaseModel {
 
     @Column(name = "blocked_at")
     private OffsetDateTime blockedAt;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserRoleModel> roles = new ArrayList<>();
 
     public String getUsername() {
         return username;
@@ -67,6 +72,10 @@ public class UserModel extends BaseModel {
 
     public void setBlockedAt(OffsetDateTime blockedAt) {
         this.blockedAt = blockedAt;
+    }
+
+    public List<UserRoleModel> getRoles() {
+        return roles;
     }
 
     @Override
