@@ -2,6 +2,26 @@ quarkus:
   http:
     port: 8081
 
+security:
+  jwt:
+    secret: "874576345773846786357634657346537465643564657634564365734657634506145673465764535452345440"
+    group: "USER"
+  exp:
+    token: 24
+    refresh: 168
+spring:
+  details:
+    domain: "https://controllibrary.org"
+
+smallrye:
+  jwt:
+    verify:
+      algorithm: HS256
+      secret: ${security.jwt.secret}
+    sign:
+      algorithm: HS256
+      secret: ${security.jwt.secret}
+
 validation:
   email:
     notblank: "The library's email address cannot be empty."
