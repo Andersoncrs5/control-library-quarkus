@@ -17,4 +17,10 @@ public class UserRoleRepository implements PanacheRepositoryBase<UserRoleModel, 
                 .project(RoleModel.class)
                 .list();
     }
+
+    public Uni<Boolean> existsByUserAndRole(UserModel user, RoleModel role) {
+        return count("user = ?1 and role = ?2", user, role)
+                .onItem().transform(count -> count > 0);
+    }
+
 }
