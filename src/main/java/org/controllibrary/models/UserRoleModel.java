@@ -33,6 +33,14 @@ public class UserRoleModel extends BaseModel {
         return role;
     }
 
+    public void setUser(UserModel user) {
+        this.user = user;
+    }
+
+    public void setRole(RoleModel role) {
+        this.role = role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
