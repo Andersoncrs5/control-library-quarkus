@@ -10,12 +10,12 @@ public class ResponseHTTP<T> {
     private boolean success;
     private OffsetDateTime timestamp;
 
-    public ResponseHTTP(T data, String message, boolean success, OffsetDateTime timestamp) {
+    public ResponseHTTP(T data, String message, boolean success) {
         this.data = data;
         this.message = message;
         this.traceId = UUID.randomUUID().toString();
         this.success = success;
-        this.timestamp = timestamp;
+        this.timestamp = OffsetDateTime.now();
     }
 
     public OffsetDateTime getTimestamp() {
