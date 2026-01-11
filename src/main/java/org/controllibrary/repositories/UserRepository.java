@@ -6,6 +6,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.controllibrary.models.UserModel;
 import org.controllibrary.utils.annotations.validations.emailConstraint.EmailConstraint;
 
+import java.util.Objects;
+
 @ApplicationScoped
 public class UserRepository implements PanacheRepositoryBase<UserModel, Long> {
 
@@ -14,9 +16,9 @@ public class UserRepository implements PanacheRepositoryBase<UserModel, Long> {
     }
 
     public Uni<Boolean> existsByEmail(@EmailConstraint String email) {
-        return find("email", email)
-                .count()
-                .onItem().transform(count -> count > 0L);
+        return find("LOWER(email) = LOWER(?1)", email)
+                .firstResult()
+                .map(Objects::nonNull);
     }
 
 }
