@@ -7,8 +7,6 @@ import java.time.OffsetDateTime;
 public class UserDTO extends BaseDTO {
     private String username;
     private String email;
-    private String password;
-    private Boolean active;
     private OffsetDateTime blockedAt;
 
     public UserDTO() {
