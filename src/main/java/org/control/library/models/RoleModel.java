@@ -4,6 +4,8 @@ package org.control.library.models;
 import jakarta.persistence.*;
 import org.control.library.utils.base.BaseModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +19,9 @@ public class RoleModel extends BaseModel {
     private String name;
 
     private Boolean active = true;
+
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    private List<UserRoleModel> users = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

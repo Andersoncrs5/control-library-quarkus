@@ -4,13 +4,19 @@ import jakarta.persistence.*;
 import org.control.library.utils.base.BaseModel;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+
 @Entity
-@Table(name = "users", indexes = {
-        @Index(name = "idx_username", columnList = "username"),
-        @Index(name = "idx_email", columnList = "email")
-})
+@Table(
+    name = "users",
+    indexes = {
+            @Index(name = "idx_username", columnList = "username"),
+            @Index(name = "idx_email", columnList = "email")
+    }
+)
 public class UserModel extends BaseModel {
 
     @Column(name = "username", length = 200, nullable = false)
@@ -26,6 +32,9 @@ public class UserModel extends BaseModel {
 
     @Column(name = "blocked_at")
     private OffsetDateTime blockedAt;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserRoleModel> roles = new ArrayList<>();
 
     public String getUsername() {
         return username;
