@@ -1,0 +1,21 @@
+quarkus:
+  http:
+    port: 8081
+
+  datasource:
+    db-kind: mariadb
+
+  hibernate-orm:
+    database:
+      generation: update
+
+  native:
+    enabled=true
+
+security:
+  jwt:
+    secret: "874576345773846786357634657346537465643564657634564365734657634506145673465764535452345440"
+    group: "USER"
+  exp:
+    token: 24
+    refresh: 168
