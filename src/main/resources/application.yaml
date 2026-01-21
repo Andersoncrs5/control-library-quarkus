@@ -1,4 +1,7 @@
 quarkus:
+  snowflake:
+    worker-id: ${SNOWFLAKE_WORKER_ID:1}
+
   banner:
     enabled: false
 
