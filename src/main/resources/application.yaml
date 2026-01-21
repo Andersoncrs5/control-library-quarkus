@@ -1,6 +1,45 @@
 quarkus:
+  banner:
+    enabled: false
+
+    log:
+      console:
+        format: "%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
+      level: INFO
+      category:
+        "org.control.library": DEBUG
+
+  details:
+    domain: "https://controllibrary.org"
+    name: "Control Library"
+    version: "1.2.0"
+    environment: "${QUARKUS_PROFILE:dev}"
+    contact-email: "admin@controllibrary.org"
+
   http:
     port: 8081
+    cors:
+      enabled: true
+      origins: "${FRONT_URL:http://localhost:3000}"
+      methods: GET,POST,PUT,DELETE,OPTIONS
+      headers: "*"
+
+    auth:
+      permission:
+        public:
+          paths: /v1/auth/login, /v1/auth/register
+          policy: permit
+        authenticated:
+          paths: /*
+          policy: authenticated
+
+  smallrye-jwt:
+    secrets:
+      enabled: true
+    verify:
+      key:
+        format: BASE64
+        value: "ODc0NTc2MzQ1NzczODQ2Nzg2MzU3NjM0NjU3MzQ2NTM3NDY1NjQzNTY0NjU3NjM0NTY0MzY1NzM0NjU3NjM0NTA2MTQ1NjczNDY1NzY0NTM1NDUyMzQ1NDQw"
 
   datasource:
     db-kind: mariadb
@@ -10,12 +49,20 @@ quarkus:
       generation: update
 
   native:
-    enabled=true
+    enabled: true
 
 security:
   jwt:
-    secret: "874576345773846786357634657346537465643564657634564365734657634506145673465764535452345440"
-    group: "USER"
-  exp:
-    token: 24
-    refresh: 168
+    exp-token-hours: 24
+    exp-refresh-hours: 168
+  password:
+    argon:
+      memory: 65536
+      iterations: 3
+      parallelism: 1
+
+validation:
+  email:
+    notblank: "The library's email address cannot be empty."
+    format: "The email format provided is invalid."
+    size: "The email should be between 5 and 150 characters long."
