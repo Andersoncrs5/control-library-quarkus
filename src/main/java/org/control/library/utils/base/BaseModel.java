@@ -1,6 +1,7 @@
 package org.control.library.utils.base;
 
 import jakarta.persistence.*;
+import org.control.library.configs.security.snowflake.GeneratedSnowflake;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,7 +11,7 @@ import java.time.OffsetDateTime;
 public abstract class BaseModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedSnowflake
     private Long id;
 
     @Version
