@@ -3,10 +3,13 @@ package org.control.library.unit;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
+import org.control.library.configs.security.CryptoService;
+import org.control.library.dto.users.CreateUserDTO;
 import org.control.library.models.UserModel;
 import org.control.library.repositories.UserRepository;
 import org.control.library.services.providers.UserService;
 import org.control.library.utils.exception.ModelNotFoundException;
+import org.control.library.utils.mappers.UserMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +25,12 @@ import static org.mockito.Mockito.*;
 public class UserServiceTest {
 
     @Inject
+    CryptoService cryptoService;
+
+    @Inject
+    UserMapper mapper;
+
+    @Inject
     UserService service;
 
     @InjectMock
@@ -34,7 +43,7 @@ public class UserServiceTest {
         user.setId(5736475346564365465L);
         user.setUsername("username");
         user.setEmail("email@gmail.com");
-        user.setPassword("5435763457");
+        user.setPassword("5435763457434554646745");
         user.setActive(true);
         user.setVersion(1L);
         user.setCreatedAt(OffsetDateTime.now());
@@ -99,6 +108,25 @@ public class UserServiceTest {
 
         verify(repository, times(1)).delete(this.user);
         verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    void shouldCreateNewUser() {
+        CreateUserDTO dto = new CreateUserDTO(
+                this.user.getUsername(),
+                this.user.getEmail(),
+                "1234567890"
+        );
+
+        when(mapper.toModel(dto)).thenReturn(this.user);
+        when(cryptoService.encode(dto.password())).thenReturn(this.user.getPassword());
+        doNothing().when(repository).persist(any(UserModel.class));
+
+        UserModel userModel = service.create(dto);
+
+        assertThat(userModel.getId()).isEqualTo(user.getId());
+
+        verifyNoMoreInteractions(repository, mapper, cryptoService);
     }
 
 }
