@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.control.library.configs.security.CryptoService;
 import org.control.library.dto.users.CreateUserDTO;
+import org.control.library.dto.users.UpdateUserDTO;
 import org.control.library.models.UserModel;
 import org.control.library.repositories.UserRepository;
 import org.control.library.services.interfaces.IUserService;
@@ -51,6 +52,15 @@ public class UserService implements IUserService {
         repository.persist(userModel);
 
         return userModel;
+    }
+
+    @Override
+    public UserModel update(UpdateUserDTO dto, UserModel user){
+        this.mapper.merge(dto, user);
+
+        repository.persist(user);
+
+        return user;
     }
 
 }
