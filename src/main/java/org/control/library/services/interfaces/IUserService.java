@@ -13,5 +13,5 @@ public interface IUserService {
     UserModel getByIdSimple(@IsId Long id);
     void delete(@IsModelInitialized UserModel user);
     UserModel create(CreateUserDTO dto);
-    UserModel update(UpdateUserDTO dto, UserModel user);
+    UserModel update(UpdateUserDTO dto, @IsModelInitialized UserModel user);
 }

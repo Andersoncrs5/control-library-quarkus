@@ -55,7 +55,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserModel update(UpdateUserDTO dto, UserModel user){
+    public UserModel update(UpdateUserDTO dto, @IsModelInitialized UserModel user){
         this.mapper.merge(dto, user);
 
         repository.persist(user);
