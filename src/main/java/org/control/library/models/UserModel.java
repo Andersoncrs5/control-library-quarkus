@@ -30,6 +30,8 @@ public class UserModel extends BaseModel {
 
     private Boolean active = true;
 
+    private short attemptsLogin = 0;
+
     @Column(name = "blocked_at")
     private OffsetDateTime blockedAt;
 
@@ -66,6 +68,12 @@ public class UserModel extends BaseModel {
     public void setBlockedAt(OffsetDateTime blockedAt) {
         this.blockedAt = blockedAt;
     }
+    public short getAttemptsLogin() {
+        return attemptsLogin;
+    }
+    public void setAttemptsLogin(short attemptsLogin) {
+        this.attemptsLogin = attemptsLogin;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -78,4 +86,6 @@ public class UserModel extends BaseModel {
     public int hashCode() {
         return Objects.hash(username, email);
     }
+
+
 }
