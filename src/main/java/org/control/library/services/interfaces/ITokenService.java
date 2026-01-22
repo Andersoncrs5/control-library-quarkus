@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface ITokenService {
     String generateToken(@IsModelInitialized UserModel user, List<RoleModel> roles);
-    String generateRefreshToken(UserModel user);
+    String generateRefreshToken(@IsModelInitialized UserModel user);
     Map<String, Object> extractAllClaims(String token);
     String validateToken(String token);
 }

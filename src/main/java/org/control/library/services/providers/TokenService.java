@@ -51,7 +51,7 @@ public class TokenService implements ITokenService {
     }
 
     @Override
-    public String generateRefreshToken(UserModel user) {
+    public String generateRefreshToken(@IsModelInitialized UserModel user) {
         return Jwt.issuer(appDetails.domain())
                 .subject(user.getEmail())
                 .claim("type", "refresh")
