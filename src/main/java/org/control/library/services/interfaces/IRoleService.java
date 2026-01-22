@@ -12,4 +12,5 @@ public interface IRoleService {
     Optional<RoleModel> getByName(@NotBlank String name);
     void delete(@IsModelInitialized RoleModel role);
     RoleModel create(RoleModel role);
+    RoleModel update(@IsModelInitialized RoleModel role);
 }
