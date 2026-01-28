@@ -12,7 +12,9 @@ import org.control.library.utils.annotations.valids.globals.EmailConstraint;
 import org.control.library.utils.annotations.valids.globals.IsId;
 import org.control.library.utils.annotations.valids.globals.isModelInitialized.IsModelInitialized;
 import org.control.library.utils.exception.ModelNotFoundException;
+import org.control.library.utils.exception.NotAuthenticatedException;
 import org.control.library.utils.mappers.UserMapper;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.util.Optional;
 
@@ -73,6 +75,26 @@ public class UserService implements IUserService {
         repository.persist(user);
 
         return user;
+    }
+
+    @Override
+    public UserModel getByJsonWebToken(JsonWebToken jwt) {
+        String sub = jwt.getSubject();
+        long userId;
+
+        if (sub == null || sub.isBlank()) {
+            throw new NotAuthenticatedException("Token subject is missing");
+        }
+
+        try {
+            userId = Long.parseLong(sub);
+
+        } catch (NumberFormatException ex) {
+            throw new NotAuthenticatedException("Invalid user identity format");
+        }
+
+        return this.getById(userId)
+                .orElseThrow(() -> new NotAuthenticatedException("User not found"));
     }
 
 }
