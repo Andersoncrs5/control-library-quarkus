@@ -5,9 +5,13 @@ import org.control.library.models.UserModel;
 import org.control.library.models.UserRoleModel;
 import org.control.library.utils.annotations.valids.globals.isModelInitialized.IsModelInitialized;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IUserRoleService {
+    List<RoleModel> findAllByUser(
+            @IsModelInitialized UserModel user
+    );
     UserRoleModel create(
             @IsModelInitialized UserModel user,
             @IsModelInitialized RoleModel role

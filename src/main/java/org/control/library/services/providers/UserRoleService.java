@@ -9,6 +9,7 @@ import org.control.library.repositories.UserRoleRepository;
 import org.control.library.services.interfaces.IUserRoleService;
 import org.control.library.utils.annotations.valids.globals.isModelInitialized.IsModelInitialized;
 
+import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -37,6 +38,13 @@ public class UserRoleService implements IUserRoleService {
             @IsModelInitialized RoleModel role
     ) {
         return this.repository.findByUserAndRole(user, role);
+    }
+
+    @Override
+    public List<RoleModel> findAllByUser(@IsModelInitialized UserModel user) {
+        List<UserRoleModel> list = this.repository.findRolesByUser(user);
+
+        return list.stream().map(UserRoleModel::getRole).toList();
     }
 
     @Override
