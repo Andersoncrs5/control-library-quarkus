@@ -118,4 +118,18 @@ public class AuthControllerTest {
                 .statusCode(401);
     }
 
+    @Test
+    void shouldMakeLogoutWithSuccess() {
+        ResponseLogin login = this.helpTest.createNewUser();
+
+        given()
+                .contentType(ContentType.JSON)
+                .auth().oauth2(login.token())
+                .when()
+                .post(url + "/logout")
+                .then()
+                .statusCode(401);
+    }
+
+
 }
