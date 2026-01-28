@@ -7,10 +7,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.control.library.configs.security.appInfo.AppDetailsConfig;
 import org.control.library.configs.security.jwt.JwtSecurityConfig;
+import org.control.library.dto.users.UserDTO;
 import org.control.library.models.RoleModel;
 import org.control.library.models.UserModel;
 import org.control.library.services.interfaces.ITokenService;
 import org.control.library.utils.annotations.valids.globals.isModelInitialized.IsModelInitialized;
+import org.control.library.utils.res.ResponseLogin;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.time.Duration;
@@ -46,7 +48,7 @@ public class TokenService implements ITokenService {
                 .claim("active", user.getActive())
                 .claim("jti", UUID.randomUUID().toString())
                 .claim("createdAt", OffsetDateTime.now())
-                .expiresIn(Duration.ofHours(securityConfig.exp().tokenHours()))
+                .expiresIn(Duration.ofHours(securityConfig.jwt().exp().tokenHours()))
                 .sign();
     }
 
@@ -57,7 +59,7 @@ public class TokenService implements ITokenService {
                 .claim("type", "refresh")
                 .claim("jti", UUID.randomUUID().toString())
                 .claim("createdAt", OffsetDateTime.now())
-                .expiresIn(Duration.ofHours(this.securityConfig.exp().refreshHours()))
+                .expiresIn(Duration.ofHours(this.securityConfig.jwt().exp().refreshHours()))
                 .sign();
     }
 
@@ -75,6 +77,23 @@ public class TokenService implements ITokenService {
     @Override
     public String validateToken(String token) {
         return parseToken(token).getSubject();
+    }
+
+    @Override
+    public ResponseLogin makeTokens(@IsModelInitialized UserModel user, List<RoleModel> roles, UserDTO userDTO) {
+
+        String refreshToken = this.generateRefreshToken(user);
+        String token = this.generateToken(user, roles);
+
+        return new ResponseLogin(
+                token,
+                OffsetDateTime.now().plusHours(securityConfig.jwt().exp().tokenHours()),
+                refreshToken,
+                OffsetDateTime.now().plusHours(securityConfig.jwt().exp().refreshHours()),
+                userDTO,
+                roles.stream().map(RoleModel::getName).toList()
+
+        );
     }
 
     private JsonWebToken parseToken(String token) {

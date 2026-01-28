@@ -1,8 +1,10 @@
 package org.control.library.services.interfaces;
 
+import org.control.library.dto.users.UserDTO;
 import org.control.library.models.RoleModel;
 import org.control.library.models.UserModel;
 import org.control.library.utils.annotations.valids.globals.isModelInitialized.IsModelInitialized;
+import org.control.library.utils.res.ResponseLogin;
 
 import java.util.List;
 import java.util.Map;
@@ -12,4 +14,5 @@ public interface ITokenService {
     String generateRefreshToken(@IsModelInitialized UserModel user);
     Map<String, Object> extractAllClaims(String token);
     String validateToken(String token);
+    ResponseLogin makeTokens(@IsModelInitialized UserModel user, List<RoleModel> roles, UserDTO userDTO);
 }
