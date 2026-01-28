@@ -15,4 +15,5 @@ public interface ITokenService {
     Map<String, Object> extractAllClaims(String token);
     String validateToken(String token);
     ResponseLogin makeTokens(@IsModelInitialized UserModel user, List<RoleModel> roles, UserDTO userDTO);
+    Long getUserIdByToken(String token);
 }

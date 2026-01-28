@@ -74,6 +74,18 @@ public class TokenService implements ITokenService {
         return claims;
     }
 
+    public Long getUserIdByToken(String token) {
+        if (token == null || token.isBlank()) throw new UnauthorizedException();
+
+        try {
+            JsonWebToken jwt = parseToken(token);
+            String sub = jwt.getSubject();
+            return sub != null ? Long.valueOf(sub) : null;
+        } catch (Exception e) {
+            throw new UnauthorizedException("Invalid token");
+        }
+    }
+
     @Override
     public String validateToken(String token) {
         return parseToken(token).getSubject();
