@@ -1,5 +1,6 @@
 package org.control.library.controller.provider;
 
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -18,9 +19,11 @@ import org.control.library.models.UserModel;
 import org.control.library.services.interfaces.ITokenService;
 import org.control.library.services.interfaces.IUserRoleService;
 import org.control.library.services.interfaces.IUserService;
+import org.control.library.utils.exception.NotAuthenticatedException;
 import org.control.library.utils.mappers.UserMapper;
 import org.control.library.utils.res.ResponseHTTP;
 import org.control.library.utils.res.ResponseLogin;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -44,6 +47,8 @@ public class AuthController implements AuthControllerDocs {
     private final IUserRoleService userRoleService;
     private final UserMapper mapper;
     private final CryptoService cryptoService;
+    @Inject
+    JsonWebToken jwt;
 
     public AuthController(IUserService service, ITokenService tokenService, IUserRoleService userRoleService, UserMapper mapper, CryptoService cryptoService) {
         this.service = service;
@@ -118,6 +123,21 @@ public class AuthController implements AuthControllerDocs {
                 "Login successful",
                 true
                 )).build();
+    }
+
+    @Override
+    @Transactional
+    public Response logout() {
+        UserModel user = this.service.getByJsonWebToken(jwt);
+
+        user.setRefreshToken("");
+        this.service.update(user);
+
+        return Response.ok(new ResponseHTTP<>(
+                null,
+                "Logout successfully",
+                true
+        )).build();
     }
 
     private void processFailedAttempt(UserModel user) {
