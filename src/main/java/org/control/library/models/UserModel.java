@@ -28,6 +28,8 @@ public class UserModel extends BaseModel {
     @Column(name = "password", nullable = false)
     private String password;
 
+    private String refreshToken;
+
     private Boolean active = true;
 
     private short attemptsLogin = 0;
@@ -38,6 +40,8 @@ public class UserModel extends BaseModel {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRoleModel> roles = new ArrayList<>();
 
+    public String getRefreshToken() {return refreshToken;}
+    public void setRefreshToken(String refreshToken) {this.refreshToken = refreshToken;}
     public String getUsername() {
         return username;
     }
