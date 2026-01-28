@@ -123,6 +123,11 @@
             <version>1.8.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-yaml-provider</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
