@@ -6,6 +6,7 @@ import org.control.library.models.UserModel;
 import org.control.library.utils.annotations.valids.globals.EmailConstraint;
 import org.control.library.utils.annotations.valids.globals.IsId;
 import org.control.library.utils.annotations.valids.globals.isModelInitialized.IsModelInitialized;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.util.Optional;
 
@@ -17,4 +18,5 @@ public interface IUserService {
     UserModel create(CreateUserDTO dto);
     UserModel update(UpdateUserDTO dto, @IsModelInitialized UserModel user);
     UserModel update(@IsModelInitialized UserModel user);
+    UserModel getByJsonWebToken(JsonWebToken jwt);
 }
