@@ -9,7 +9,6 @@ public interface JwtSecurityConfig {
 
     Jwt jwt();
 
-    Exp exp();
 
     Password password();
 
@@ -17,6 +16,7 @@ public interface JwtSecurityConfig {
         String secret();
         @WithDefault("USER")
         String group();
+        Exp exp();
     }
 
     interface Exp {
