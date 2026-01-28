@@ -20,7 +20,7 @@ public class HelpTest {
         CreateUserDTO dto = new CreateUserDTO(
                 "testusername",
                 "test@example.com",
-                "password123"
+                "12345678"
         );
 
         ResponseLogin result = given()
