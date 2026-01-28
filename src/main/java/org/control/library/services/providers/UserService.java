@@ -8,6 +8,7 @@ import org.control.library.dto.users.UpdateUserDTO;
 import org.control.library.models.UserModel;
 import org.control.library.repositories.UserRepository;
 import org.control.library.services.interfaces.IUserService;
+import org.control.library.utils.annotations.valids.globals.EmailConstraint;
 import org.control.library.utils.annotations.valids.globals.IsId;
 import org.control.library.utils.annotations.valids.globals.isModelInitialized.IsModelInitialized;
 import org.control.library.utils.exception.ModelNotFoundException;
@@ -26,6 +27,10 @@ public class UserService implements IUserService {
 
     @Inject
     private UserRepository repository;
+
+    public Optional<UserModel> getByEmail(@EmailConstraint String email) {
+        return this.repository.findByEmail(email);
+    }
 
     @Override
     public Optional<UserModel> getById(@IsId Long id) {
@@ -58,6 +63,13 @@ public class UserService implements IUserService {
     public UserModel update(UpdateUserDTO dto, @IsModelInitialized UserModel user){
         this.mapper.merge(dto, user);
 
+        repository.persist(user);
+
+        return user;
+    }
+
+    @Override
+    public UserModel update(@IsModelInitialized UserModel user){
         repository.persist(user);
 
         return user;
