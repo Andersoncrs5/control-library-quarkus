@@ -1,13 +1,14 @@
 package org.control.library.configs.security.snowflake;
 
+import io.quarkus.arc.Unremovable;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.faulttolerance.Retry;
 
 @ApplicationScoped
+@Unremovable
 public class SnowflakeIdGenerator {
     private final long workerId;
-    private final long epoch = 1609459200000L;
 
     private long sequence = 0L;
     private long lastTimestamp = -1L;
@@ -35,6 +36,7 @@ public class SnowflakeIdGenerator {
 
         lastTimestamp = timestamp;
 
+        long epoch = 1609459200000L;
         return ((timestamp - epoch) << 22) | (workerId << 12) | sequence;
     }
 
