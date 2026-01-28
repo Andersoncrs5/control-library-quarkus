@@ -20,7 +20,7 @@ quarkus:
     contact-email: "admin@controllibrary.org"
 
   http:
-    port: 8081
+    port: 8888
     cors:
       enabled: true
       origins: "${FRONT_URL:http://localhost:3000}"
@@ -56,8 +56,11 @@ quarkus:
 
 security:
   jwt:
-    exp-token-hours: 24
-    exp-refresh-hours: 168
+    secret: "43537645734657367566465943573465736r7463r7346563752460345734657"
+    group: "USER"
+    exp:
+      token: 24
+      refresh: 168
   password:
     argon:
       memory: 65536
