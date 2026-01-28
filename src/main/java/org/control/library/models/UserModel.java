@@ -28,6 +28,7 @@ public class UserModel extends BaseModel {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "refresh_token", columnDefinition = "TEXT")
     private String refreshToken;
 
     private Boolean active = true;
